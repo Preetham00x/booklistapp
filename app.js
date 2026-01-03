@@ -18,5 +18,6 @@ class UI{
             author:'Jane Doe',
             isbn:'454545',}
         ];
+    const books=Storedbook;
 }
 }
