@@ -22,7 +22,7 @@ class UI{
     books.forEach((book) => UI.addBookList(book));
 }
 static addBookList(book){
-    const list=doscument.getElementById('book-list');
+    const list=document.querySelector('#book-list');
     const row = document.createElement('tr');
     row.innerHTML=`
     <td>${book.title}</td>
@@ -33,3 +33,5 @@ static addBookList(book){
     list.appendChild(row);
     
 }}
+//event display book
+document.addEventListener('DOMContentLoaded',UI.displayBooks);
