@@ -19,5 +19,9 @@ class UI{
             isbn:'454545',}
         ];
     const books=Storedbook;
+    books.forEach((book) => UI.addBookList(book));
 }
+static addBookList(book){
+    const list=doscument.getElementById('book-list');
+    
 }
