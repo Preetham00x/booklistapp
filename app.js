@@ -35,3 +35,4 @@ static addBookList(book){
 }}
 //event display book
 document.addEventListener('DOMContentLoaded',UI.displayBooks);
+//event add a book
