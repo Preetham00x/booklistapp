@@ -1,4 +1,3 @@
-```javascript
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import BookForm from './components/BookForm';
@@ -6,7 +5,7 @@ import BookList from './components/BookList';
 import './App.css';
 
 function App() {
-  // Load initial books from localStorage or use an empty array
+  // Load initial books from localStorage or use empty array
   const [books, setBooks] = useState(() => {
     const savedBooks = localStorage.getItem('books');
     if (savedBooks) {
