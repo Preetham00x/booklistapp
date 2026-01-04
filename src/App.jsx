@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+```javascript
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import BookForm from './components/BookForm';
 import BookList from './components/BookList';
 import './App.css';
 
 function App() {
-  const [books, setBooks] = useState([
-    {
-      title: 'The Martian',
-      author: 'Andy Weir',
-      isbn: '978-0-553-41802-6',
-    },
-    
-  ]);
+  // Load initial books from localStorage or use an empty array
+  const [books, setBooks] = useState(() => {
+    const savedBooks = localStorage.getItem('books');
+    if (savedBooks) {
+      return JSON.parse(savedBooks);
+    } else {
+      return [];
+    }
+  });
+
+  // Save books to localStorage whenever books state changes
+  useEffect(() => {
+    localStorage.setItem('books', JSON.stringify(books));
+  }, [books]);
 
   const addBook = (book) => {
     setBooks([...books, book]);
