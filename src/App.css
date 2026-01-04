@@ -4,6 +4,8 @@
     margin: 0 auto;
     padding: 2rem;
     min-height: 100vh;
+    position: relative;
+    /* For absolute positioning of alert if needed */
 }
 
 /* Header Styles */
@@ -18,6 +20,7 @@
     font-weight: 700;
     background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 50%, var(--secondary) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 0.5rem;
     letter-spacing: -1px;
@@ -26,6 +29,48 @@
 .header i {
     margin-right: 15px;
     color: var(--primary);
+}
+
+/* Alert Styles */
+.alert {
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    animation: fadeOut 1s ease-in-out 9s forwards;
+    /* Wait 9s, then fade out over 1s */
+    backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+}
+
+.alert-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.alert-success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #86efac;
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.alert i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 /* Book Form Styles */
@@ -122,6 +167,7 @@
     opacity: 0.8;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -167,4 +213,141 @@
     background: var(--accent);
     color: white;
     transform: rotate(90deg);
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: slideUp 0.3s ease;
+}
+
+.modal-header h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--text-main);
+}
+
+.modal-body {
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--text-secondary);
+    color: var(--text-secondary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    border-color: var(--text-main);
+    color: var(--text-main);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background: var(--secondary);
+}
+
+.btn-danger {
+    background: var(--accent);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-danger:hover {
+    opacity: 0.9;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
+
+    75% {
+        transform: translateX(-10px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+    border-color: var(--accent);
+    /* Optional: highlight border red while shaking */
 }

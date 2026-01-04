@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 
-const BookForm = ({ addBook }) => {
+const BookForm = ({ addBook, showAlert }) => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [isbn, setIsbn] = useState('');
+    const [isShaking, setIsShaking] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (title === '' || author === '' || isbn === '') {
-            // Could use a toast here, but alert is fine for now
-            alert('Please fill in all fields');
+            showAlert('Please fill in all fields', 'error');
+            // Trigger shake
+            setIsShaking(true);
+            setTimeout(() => setIsShaking(false), 500); // Remove class after animation
             return;
         }
         const book = { title, author, isbn };
@@ -20,7 +23,7 @@ const BookForm = ({ addBook }) => {
     };
 
     return (
-        <div className="book-form-card">
+        <div className={`book-form-card ${isShaking ? 'shake' : ''}`}>
             <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Add New Book</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
