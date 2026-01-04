@@ -32,7 +32,12 @@ static addBookList(book){
     `;
     list.appendChild(row);
     
-}}
+}};
+static deletebook(el){
+    if(el.contains('delete')){
+        el.parentElement.parentElement.remove();
+    }
+}
 //event display book
 document.addEventListener('DOMContentLoaded',UI.displayBooks);
 //event add a book
@@ -47,4 +52,7 @@ document.querySelector('#book-form').addEventListener('submit', (e)=>{
     const book =new Book(title,author,isbn);
     UI.addBookList(book);
     console.log(book);
-});
+});''
+//delete book event
+document.querySelector('#book-list').addEventListener('click',(e) =>{
+    UI.deletbook(e.target)});
