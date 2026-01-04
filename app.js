@@ -36,3 +36,14 @@ static addBookList(book){
 //event display book
 document.addEventListener('DOMContentLoaded',UI.displayBooks);
 //event add a book
+document.querySelector('#book-form').addEventListener('submit', (e)=>{
+    //prevent actual submit
+    e.preventDefault();
+    //get form value
+    const title=document.querySelector('#title').value;
+    const author=document.querySelector('#author').value;
+    const isbn=document.querySelector('#isbn').value;
+    //instantiate book
+    const book =new book(title,author,isbn);
+    console.log(book);
+});
