@@ -31,13 +31,18 @@ static addBookList(book){
     <td><a href="#" class="btn btn-danger btn-sm delete">X</a></td>
     `;
     list.appendChild(row);
-    
-}};
-static deletebook(el){
-    if(el.contains('delete')){
-        el.parentElement.parentElement.remove();
-    }
 }
+static deletbook(el){
+    if(el.contains('delete')){
+        el.parentElement.parentElement.remove();};
+    }
+    static clearFields(){
+        document.querySelector('#title').value='';
+        document.querySelector('#author').value='';
+        document.querySelector('#isbn').value='';
+    };
+};
+
 //event display book
 document.addEventListener('DOMContentLoaded',UI.displayBooks);
 //event add a book
