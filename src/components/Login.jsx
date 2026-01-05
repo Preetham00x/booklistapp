@@ -1,26 +1,27 @@
 import React, { useState } from "react";
+import { auth, googleProvider } from "../firebase";
+import { signInWithPopup } from "firebase/auth";
 
-const Login = ({ onLogin }) => {
+const Login = ({ onGuestLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email && password) {
-      onLogin({ name: "User", email });
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      // App.jsx effect will handle redirect
+    } catch (err) {
+      console.error(err);
+      setError(`Failed to sign in: ${err.message}`);
     }
   };
 
-  const handleGoogleLogin = (account) => {
-    onLogin({ name: account.name, email: account.email, avatar: account.avatar });
-    setShowGoogleModal(false);
+  const handleEmailLogin = (e) => {
+    e.preventDefault();
+    // Placeholder for actual email/pass auth later
+    setError("Email/Password auth requires Firebase configuration. Use Google Sign-In.");
   };
-
-  const mockAccounts = [
-    { name: "Preetham", email: "preetham@example.com", avatar: "P" },
-    { name: "Dev Account", email: "dev@company.com", avatar: "D" }
-  ];
 
   return (
     <div className="login-container">
@@ -33,7 +34,7 @@ const Login = ({ onLogin }) => {
           <p className="subtitle">Enter your details to access your library</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleEmailLogin} className="login-form">
           <div className="input-group">
             <label>Email Address</label>
             <input
@@ -63,48 +64,27 @@ const Login = ({ onLogin }) => {
           </button>
         </form>
 
+        {error && <p className="error-message" style={{ color: '#ff416c', marginTop: '10px', textAlign: 'center', fontSize: '0.9rem' }}>{error}</p>}
+
         <div className="divider">
           <span>Or continue with</span>
         </div>
 
         <div className="social-login">
-          <button className="social-btn google" onClick={() => setShowGoogleModal(true)}>
+          <button className="social-btn google" onClick={handleGoogleLogin}>
             <i className="fa-brands fa-google"></i>
           </button>
           <button className="social-btn apple">
             <i className="fa-brands fa-apple"></i>
           </button>
         </div>
-      </div>
 
-      {showGoogleModal && (
-        <div className="google-modal-overlay" onClick={() => setShowGoogleModal(false)}>
-          <div className="google-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="google-header">
-              <i className="fa-brands fa-google"></i>
-              <h3>Choose an account</h3>
-              <p>to continue to BookList</p>
-            </div>
-            <div className="account-list">
-              {mockAccounts.map((account, index) => (
-                <div key={index} className="account-item" onClick={() => handleGoogleLogin(account)}>
-                  <div className="account-avatar">{account.avatar}</div>
-                  <div className="account-info">
-                    <span className="account-name">{account.name}</span>
-                    <span className="account-email">{account.email}</span>
-                  </div>
-                </div>
-              ))}
-              <div className="account-item">
-                <div className="account-avatar add"><i className="fa-solid fa-user-plus"></i></div>
-                <div className="account-info">
-                  <span className="account-name">Use another account</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="guest-option">
+          <button className="guest-btn" onClick={onGuestLogin}>
+            Continue without signing in
+          </button>
         </div>
-      )}
+      </div>
 
       <style>{`
         .login-container {
@@ -289,111 +269,23 @@ const Login = ({ onLogin }) => {
           border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Google Modal */
-        .google-modal-overlay {
-          position: fixed;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 6000;
-          animation: fadein 0.2s;
+        .guest-option {
+            margin-top: 25px;
+            text-align: center;
         }
         
-        .google-modal {
-          background: white;
-          color: #333;
-          width: 400px;
-          border-radius: 8px;
-          padding-bottom: 20px;
-          overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-          animation: popin 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-        }
-
-        .google-header {
-          text-align: center;
-          padding: 20px;
-          border-bottom: 1px solid #f0f0f0;
-        }
-
-        .google-header i {
-          font-size: 1.5rem;
-          color: #db4437; /* Google Red */
-          margin-bottom: 10px;
-        }
-
-        .google-header h3 {
-          font-weight: 500;
-          margin: 0;
+        .guest-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            transition: color 0.2s;
         }
         
-        .google-header p {
-          color: #666;
-          font-size: 0.9rem;
-          margin-top: 5px;
-        }
-
-        .account-list {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .account-item {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          padding: 12px 20px;
-          cursor: pointer;
-          border-bottom: 1px solid #f8f8f8;
-          transition: background 0.2s;
-        }
-
-        .account-item:hover {
-          background: #f5f5f5;
-        }
-
-        .account-avatar {
-          width: 35px;
-          height: 35px;
-          border-radius: 50%;
-          background: #6366f1;
-          color: white;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-weight: bold;
-          font-size: 0.9rem;
-        }
-        
-        .account-avatar.add {
-          background: transparent;
-          color: #666;
-        }
-
-        .account-info {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .account-name {
-          font-weight: 500;
-          font-size: 0.95rem;
-        }
-
-        .account-email {
-          font-size: 0.85rem;
-          color: #666;
-        }
-        
-        @keyframes popin {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        @keyframes fadein {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .guest-btn:hover {
+            color: white;
         }
       `}</style>
     </div>

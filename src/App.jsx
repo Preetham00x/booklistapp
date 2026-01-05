@@ -6,7 +6,11 @@ import Login from "./components/Login";
 import HistoryList from "./components/HistoryList";
 import "./App.css";
 
-const Sidebar = ({ currentView, setView, user, onLogout }) => (
+// Firebase
+import { auth } from "./firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
+const Sidebar = ({ currentView, setView, user, isGuest, onLogout, onLoginRedirect }) => (
   <aside className="sidebar glass-panel">
     <div className="logo">
       <i className="fa-solid fa-book-open"></i>
@@ -44,15 +48,31 @@ const Sidebar = ({ currentView, setView, user, onLogout }) => (
       </div>
     </nav>
 
-    {user && (
+    {user ? (
       <div className="user-profile">
         <div className="avatar">
-          <i className="fa-solid fa-user"></i>
+          {user.photoURL ? (
+            <img src={user.photoURL} alt="Avatar" className="avatar-img" />
+          ) : (
+            <i className="fa-solid fa-user"></i>
+          )}
         </div>
         <div className="user-info">
-          <span className="name">{user.name}</span>
+          <span className="name">{user.displayName || user.email}</span>
           <span className="role" onClick={onLogout} style={{ cursor: 'pointer', color: '#ff416c' }}>
             Sign Out
+          </span>
+        </div>
+      </div>
+    ) : (
+      <div className="user-profile">
+        <div className="avatar" style={{ background: 'rgba(255,255,255,0.1)' }}>
+          <i className="fa-solid fa-user-secret"></i>
+        </div>
+        <div className="user-info">
+          <span className="name">Guest User</span>
+          <span className="role" onClick={onLogout} style={{ cursor: 'pointer', color: '#6a11cb' }}>
+            Sign In
           </span>
         </div>
       </div>
@@ -62,8 +82,10 @@ const Sidebar = ({ currentView, setView, user, onLogout }) => (
 
 function App() {
   // --- STATE ---
-  const [user, setUser] = useState(null); // Auth State
-  const [currentView, setCurrentView] = useState('home'); // Navigation: home, library, favorites, history
+  const [user, setUser] = useState(null); // Firebase User Object
+  const [isGuest, setIsGuest] = useState(false); // Guest Mode State
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentView, setCurrentView] = useState('home');
 
   const [books, setBooks] = useState(() => {
     const savedBooks = localStorage.getItem("books");
@@ -78,7 +100,18 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notification, setNotification] = useState(null);
 
-  // --- EFFECTS ---
+  // --- PERSISTENCE EFFECT ---
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      if (currentUser) {
+        setIsGuest(false); // If they log in, they are no longer a guest
+      }
+      setIsLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
   useEffect(() => {
     localStorage.setItem("books", JSON.stringify(books));
   }, [books]);
@@ -103,15 +136,25 @@ function App() {
     setHistory([newAction, ...history]);
   };
 
-  const handleLogin = (userData) => {
-    setUser(userData);
-    showNotification(`Welcome back, ${userData.name}!`);
+  const handleLogout = async () => {
+    if (isGuest) {
+      setIsGuest(false); // Just reset guest state to show login
+      showNotification("Ready to Sign In");
+    } else {
+      try {
+        await signOut(auth);
+        setCurrentView('home');
+        showNotification("Logged out successfully");
+      } catch (error) {
+        console.error(error);
+        showNotification("Error logging out", "error");
+      }
+    }
   };
 
-  const handleLogout = () => {
-    setUser(null);
-    setCurrentView('home');
-    showNotification("Logged out successfully");
+  const handleGuestLogin = () => {
+    setIsGuest(true);
+    showNotification("Welcome, Guest!");
   };
 
   const addBook = (book) => {
@@ -158,11 +201,15 @@ function App() {
     return books;
   };
 
-  // If not logged in, show Login Screen
-  if (!user) {
+  if (isLoading) {
+    return <div className="loading-screen">Loading...</div>;
+  }
+
+  // If not logged in AND not a guest, show Login Screen
+  if (!user && !isGuest) {
     return (
       <div className="app-container">
-        <Login onLogin={handleLogin} />
+        <Login onGuestLogin={handleGuestLogin} />
       </div>
     );
   }
@@ -173,6 +220,7 @@ function App() {
         currentView={currentView}
         setView={setCurrentView}
         user={user}
+        isGuest={isGuest}
         onLogout={handleLogout}
       />
 
