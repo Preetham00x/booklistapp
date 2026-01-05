@@ -1,66 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const BookForm = ({ addBook, showAlert }) => {
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [isbn, setIsbn] = useState('');
-    const [isShaking, setIsShaking] = useState(false);
+const BookForm = ({ onAddBook }) => {
+    const [title, setTitle] = useState("");
+    const [author, setAuthor] = useState("");
+    const [isbn, setIsbn] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (title === '' || author === '' || isbn === '') {
-            showAlert('Please fill in all fields', 'error');
-            // Trigger shake
-            setIsShaking(true);
-            setTimeout(() => setIsShaking(false), 500); // Remove class after animation
+        if (!title || !author || !isbn) {
+            // Basic validation, though parent handles notifications usually
             return;
         }
-        const book = { title, author, isbn };
-        addBook(book);
-        setTitle('');
-        setAuthor('');
-        setIsbn('');
+        onAddBook({ title, author, isbn });
+        setTitle("");
+        setAuthor("");
+        setIsbn("");
     };
 
     return (
-        <div className={`book-form-card ${isShaking ? 'shake' : ''}`}>
-            <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Add New Book</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="form-container">
+            <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Add New Book</h2>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div className="form-group">
-                    <label htmlFor="title">Title</label>
                     <input
                         type="text"
-                        id="title"
-                        className="form-control"
-                        placeholder="Enter book title"
+                        className="glass-input"
+                        placeholder="Book Title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="author">Author</label>
                     <input
                         type="text"
-                        id="author"
-                        className="form-control"
-                        placeholder="Enter author name"
+                        className="glass-input"
+                        placeholder="Author"
                         value={author}
                         onChange={(e) => setAuthor(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="isbn">ISBN</label>
                     <input
                         type="text"
-                        id="isbn"
-                        className="form-control"
-                        placeholder="ISBN Number"
+                        className="glass-input"
+                        placeholder="ISBN #"
                         value={isbn}
                         onChange={(e) => setIsbn(e.target.value)}
+                        required
                     />
                 </div>
-                <button type="submit" className="btn-submit">
-                    Add Book <i className="fa-solid fa-plus" style={{ marginLeft: '8px' }}></i>
+                <button type="submit" className="btn-gradient" style={{ marginTop: '10px' }}>
+                    Add Book
                 </button>
             </form>
         </div>
