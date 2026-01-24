@@ -16,9 +16,11 @@
     flex-direction: column;
     padding: 28px;
     flex-shrink: 0;
-    background: var(--bg-card);
+    background: var(--sidebar-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--card-radius);
+    position: relative;
+    z-index: 1;
 }
 
 .logo {
@@ -137,9 +139,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--bg-card);
+    background: var(--topbar-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--card-radius);
+    position: relative;
+    z-index: 1;
 }
 
 .search-bar {
@@ -283,7 +287,7 @@
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    background: var(--bg-card);
+    background: var(--card-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--card-radius);
     transition: all 0.3s ease;

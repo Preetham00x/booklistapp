@@ -1,0 +1,26 @@
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.25s ease;
+    margin-top: 16px;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    border-color: var(--purple-primary);
+    box-shadow: 0 0 20px var(--purple-glow-soft);
+}
+
+.theme-toggle i {
+    font-size: 0.9rem;
+    color: var(--purple-light);
+}
