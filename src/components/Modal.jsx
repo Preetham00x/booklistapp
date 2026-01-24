@@ -1,28 +1,28 @@
 import React, { useEffect } from "react";
 
 const Modal = ({ children, onClose }) => {
-    // Close on Escape key
-    useEffect(() => {
-        const handleEsc = (e) => {
-            if (e.key === "Escape") onClose();
-        };
-        window.addEventListener("keydown", handleEsc);
-        return () => window.removeEventListener("keydown", handleEsc);
-    }, [onClose]);
+  // Close on Escape key
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
 
-    return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div
-                className="modal-content glass-panel"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <button className="close-btn" onClick={onClose}>
-                    <i className="fa-solid fa-xmark"></i>
-                </button>
-                {children}
-            </div>
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div
+        className="modal-content glass-panel"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="close-btn" onClick={onClose}>
+          <i className="fa-solid fa-xmark"></i>
+        </button>
+        {children}
+      </div>
 
-            <style>{`
+      <style>{`
         .modal-overlay {
           position: fixed;
           top: 0;
@@ -41,6 +41,8 @@ const Modal = ({ children, onClose }) => {
         .modal-content {
           width: 90%;
           max-width: 500px;
+          max-height: 85vh;
+          overflow-y: auto;
           padding: 40px;
           position: relative;
           background: rgba(20, 20, 40, 0.8); /* Slightly more opaque for readability */
@@ -73,8 +75,8 @@ const Modal = ({ children, onClose }) => {
           to { transform: scale(1); opacity: 1; }
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default Modal;

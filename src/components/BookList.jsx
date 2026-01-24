@@ -32,8 +32,31 @@ const BookList = ({ books, onDelete, onToggleFavorite, viewMode = 'grid' }) => {
                         className="book-list-item glass-panel"
                         style={{ '--delay': `${index * 0.05}s` }}
                     >
-                        <div className="list-item-cover" style={{ background: getGradient(book.title) }}>
-                            <span className="list-cover-title">{book.title.charAt(0)}</span>
+                        <div
+                            className="list-item-cover"
+                            style={{
+                                background: book.coverUrl ? 'transparent' : getGradient(book.title),
+                                overflow: 'hidden'
+                            }}
+                        >
+                            {book.coverUrl ? (
+                                <img
+                                    src={book.coverUrl}
+                                    alt={book.title}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.parentNode.style.background = getGradient(book.title);
+                                        e.target.nextSibling.style.display = 'block';
+                                    }}
+                                />
+                            ) : null}
+                            <span
+                                className="list-cover-title"
+                                style={{ display: book.coverUrl ? 'none' : 'flex' }}
+                            >
+                                {book.title.charAt(0)}
+                            </span>
                         </div>
                         <div className="list-item-info">
                             <h3 className="list-item-title">{book.title}</h3>
@@ -73,8 +96,29 @@ const BookList = ({ books, onDelete, onToggleFavorite, viewMode = 'grid' }) => {
         <div className="book-grid">
             {books.map((book) => (
                 <div key={book.isbn} className="book-card glass-panel" style={{ '--delay': `${Math.random() * 0.5}s` }}>
-                    <div className="book-cover" style={{ background: getGradient(book.title) }}>
-                        <span className="cover-title">{book.title}</span>
+                    <div
+                        className="book-cover"
+                        style={{
+                            background: book.coverUrl ? 'transparent' : getGradient(book.title)
+                        }}
+                    >
+                        {book.coverUrl ? (
+                            <img
+                                src={book.coverUrl}
+                                alt={book.title}
+                                className="cover-image"
+                                onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.nextSibling.style.display = 'block';
+                                }}
+                            />
+                        ) : null}
+                        <span
+                            className="cover-title"
+                            style={{ display: book.coverUrl ? 'none' : 'block' }}
+                        >
+                            {book.title}
+                        </span>
                         <button
                             className={`fav-btn ${book.isFavorite ? 'active' : ''}`}
                             onClick={(e) => {

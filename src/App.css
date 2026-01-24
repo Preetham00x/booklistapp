@@ -106,6 +106,11 @@
     object-fit: cover;
 }
 
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
 .user-info .name {
     font-weight: 600;
     font-size: 0.9rem;
@@ -310,6 +315,30 @@
     padding: 20px;
     text-align: center;
     position: relative;
+    overflow: hidden;
+}
+
+.cover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Light mode shadows for depth */
+[data-theme="light"] .sidebar,
+[data-theme="light"] .top-bar,
+[data-theme="light"] .book-card,
+[data-theme="light"] .book-list-item,
+[data-theme="light"] .glass-panel {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .book-card:hover,
+[data-theme="light"] .book-list-item:hover {
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15);
 }
 
 .fav-btn {

@@ -110,6 +110,7 @@ function AppContent() {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingBook, setEditingBook] = useState(null);
   const [notification, setNotification] = useState(null);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
 
@@ -204,6 +205,24 @@ function AppContent() {
   const clearHistory = () => {
     setHistory([]);
     showNotification("History Cleared");
+  };
+
+  const updateBook = (updatedBook) => {
+    setBooks(books.map(book =>
+      book.isbn === updatedBook.isbn ? { ...book, ...updatedBook } : book
+    ));
+    setEditingBook(null);
+    showNotification("Book Updated Successfully");
+    addToHistory(`Updated "${updatedBook.title}"`, 'update');
+  };
+
+  const handleEditBook = (book) => {
+    setEditingBook(book);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditingBook(null);
   };
 
   // --- RENDER HELPERS ---

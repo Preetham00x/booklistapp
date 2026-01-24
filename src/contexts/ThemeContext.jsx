@@ -4,7 +4,8 @@ const ThemeContext = createContext();
 
 export const THEMES = {
     MINIMAL: 'minimal',
-    VIBRANT: 'vibrant'
+    VIBRANT: 'vibrant',
+    LIGHT: 'light'
 };
 
 export function ThemeProvider({ children }) {
@@ -18,7 +19,11 @@ export function ThemeProvider({ children }) {
     }, [theme]);
 
     const toggleTheme = () => {
-        setTheme(prev => prev === THEMES.MINIMAL ? THEMES.VIBRANT : THEMES.MINIMAL);
+        setTheme(prev => {
+            if (prev === THEMES.MINIMAL) return THEMES.VIBRANT;
+            if (prev === THEMES.VIBRANT) return THEMES.LIGHT;
+            return THEMES.MINIMAL;
+        });
     };
 
     return (

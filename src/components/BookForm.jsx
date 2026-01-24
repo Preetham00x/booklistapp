@@ -1,34 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GENRES } from "../utils/blendUtils";
 
-const BookForm = ({ onAddBook }) => {
+const BookForm = ({ onAddBook, editBook, onUpdateBook, onClose }) => {
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [isbn, setIsbn] = useState("");
+    const [coverUrl, setCoverUrl] = useState("");
     const [genre, setGenre] = useState([]);
     const [rating, setRating] = useState(0);
     const [readDate, setReadDate] = useState("");
     const [showGenreDropdown, setShowGenreDropdown] = useState(false);
+
+    const isEditMode = !!editBook;
+
+    // Populate form when editing
+    useEffect(() => {
+        if (editBook) {
+            setTitle(editBook.title || "");
+            setAuthor(editBook.author || "");
+            setIsbn(editBook.isbn || "");
+            setCoverUrl(editBook.coverUrl || "");
+            setGenre(editBook.genre || []);
+            setRating(editBook.rating || 0);
+            setReadDate(editBook.readDate || "");
+        }
+    }, [editBook]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!title || !author || !isbn) {
             return;
         }
-        onAddBook({
+
+        const bookData = {
             title,
             author,
             isbn,
+            coverUrl: coverUrl || null,
             genre: genre.length > 0 ? genre : null,
             rating: rating > 0 ? rating : null,
             readDate: readDate || null
-        });
-        setTitle("");
-        setAuthor("");
-        setIsbn("");
-        setGenre([]);
-        setRating(0);
-        setReadDate("");
+        };
+
+        if (isEditMode && onUpdateBook) {
+            onUpdateBook({ ...editBook, ...bookData });
+        } else if (onAddBook) {
+            onAddBook(bookData);
+        }
+
+        // Reset form only when adding
+        if (!isEditMode) {
+            setTitle("");
+            setAuthor("");
+            setIsbn("");
+            setCoverUrl("");
+            setGenre([]);
+            setRating(0);
+            setReadDate("");
+        }
     };
 
     const toggleGenre = (g) => {
@@ -41,7 +70,9 @@ const BookForm = ({ onAddBook }) => {
 
     return (
         <div className="form-container">
-            <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Add New Book</h2>
+            <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>
+                {isEditMode ? 'Edit Book' : 'Add New Book'}
+            </h2>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div className="form-group">
                     <input
@@ -72,6 +103,28 @@ const BookForm = ({ onAddBook }) => {
                         onChange={(e) => setIsbn(e.target.value)}
                         required
                     />
+                </div>
+
+                {/* Cover Image URL */}
+                <div className="form-group">
+                    <label className="form-label">Cover Image URL (optional)</label>
+                    <input
+                        type="url"
+                        className="glass-input"
+                        placeholder="https://example.com/cover.jpg"
+                        value={coverUrl}
+                        onChange={(e) => setCoverUrl(e.target.value)}
+                    />
+                    {coverUrl && (
+                        <div className="cover-preview">
+                            <img
+                                src={coverUrl}
+                                alt="Cover preview"
+                                onError={(e) => e.target.style.display = 'none'}
+                                onLoad={(e) => e.target.style.display = 'block'}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 {/* Genre Selection */}
@@ -143,7 +196,7 @@ const BookForm = ({ onAddBook }) => {
                 </div>
 
                 <button type="submit" className="btn-gradient" style={{ marginTop: '10px' }}>
-                    Add Book
+                    {isEditMode ? 'Update Book' : 'Add Book'}
                 </button>
             </form>
 
@@ -260,6 +313,21 @@ const BookForm = ({ onAddBook }) => {
 
                 input[type="date"] {
                     color-scheme: dark;
+                }
+
+                .cover-preview {
+                    margin-top: 10px;
+                    width: 80px;
+                    height: 120px;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    border: 1px solid var(--glass-border);
+                }
+
+                .cover-preview img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
             `}</style>
         </div>
