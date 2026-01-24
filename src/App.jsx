@@ -5,6 +5,8 @@ import Modal from "./components/Modal";
 import Login from "./components/Login";
 import HistoryList from "./components/HistoryList";
 import BlendPage from "./components/BlendPage";
+import ThemeToggle from "./components/ThemeToggle";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import "./App.css";
 
 // Firebase
@@ -56,6 +58,8 @@ const Sidebar = ({ currentView, setView, user, isGuest, onLogout, onLoginRedirec
       </div>
     </nav>
 
+    <ThemeToggle />
+
     {user ? (
       <div className="user-profile">
         <div className="avatar">
@@ -67,7 +71,7 @@ const Sidebar = ({ currentView, setView, user, isGuest, onLogout, onLoginRedirec
         </div>
         <div className="user-info">
           <span className="name">{user.displayName || user.email}</span>
-          <span className="role" onClick={onLogout} style={{ cursor: 'pointer', color: '#ff416c' }}>
+          <span className="role" onClick={onLogout} style={{ cursor: 'pointer', color: 'var(--purple-light)' }}>
             Sign Out
           </span>
         </div>
@@ -79,7 +83,7 @@ const Sidebar = ({ currentView, setView, user, isGuest, onLogout, onLoginRedirec
         </div>
         <div className="user-info">
           <span className="name">Guest User</span>
-          <span className="role" onClick={onLogout} style={{ cursor: 'pointer', color: '#6a11cb' }}>
+          <span className="role" onClick={onLogout} style={{ cursor: 'pointer', color: 'var(--purple-primary)' }}>
             Sign In
           </span>
         </div>
@@ -88,7 +92,7 @@ const Sidebar = ({ currentView, setView, user, isGuest, onLogout, onLoginRedirec
   </aside>
 );
 
-function App() {
+function AppContent() {
   // --- STATE ---
   const [user, setUser] = useState(null); // Firebase User Object
   const [isGuest, setIsGuest] = useState(false); // Guest Mode State
@@ -292,6 +296,14 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }
 
