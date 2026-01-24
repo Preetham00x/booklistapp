@@ -341,6 +341,144 @@
     box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15);
 }
 
+/* Light mode nav item colors */
+[data-theme="light"] .nav-item {
+    color: #4b5563;
+}
+
+[data-theme="light"] .nav-item:hover {
+    color: #1f2937;
+    background: rgba(124, 58, 237, 0.08);
+}
+
+[data-theme="light"] .nav-item.active {
+    color: #1f2937;
+    background: rgba(124, 58, 237, 0.12);
+}
+
+[data-theme="light"] .nav-item.active i {
+    color: var(--purple-primary);
+}
+
+/* Light mode book details */
+[data-theme="light"] .book-details {
+    background: #f8fafc;
+}
+
+[data-theme="light"] .book-title {
+    color: #1e293b;
+}
+
+[data-theme="light"] .book-author {
+    color: #64748b;
+}
+
+[data-theme="light"] .isbn {
+    color: #94a3b8;
+}
+
+/* Light mode list view */
+[data-theme="light"] .list-item-title {
+    color: #1e293b;
+}
+
+[data-theme="light"] .list-item-author {
+    color: #64748b;
+}
+
+[data-theme="light"] .list-item-isbn {
+    color: #94a3b8;
+}
+
+/* Light mode search bar */
+[data-theme="light"] .search-bar {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+}
+
+[data-theme="light"] .search-bar i {
+    color: #64748b;
+}
+
+[data-theme="light"] .search-input {
+    color: #1e293b;
+}
+
+[data-theme="light"] .search-input::placeholder {
+    color: #94a3b8;
+}
+
+/* Light mode inputs */
+[data-theme="light"] .glass-input {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #1e293b;
+}
+
+[data-theme="light"] .glass-input::placeholder {
+    color: #94a3b8;
+}
+
+[data-theme="light"] .glass-input:focus {
+    border-color: var(--purple-primary);
+    background: #ffffff;
+}
+
+/* Light mode delete button */
+[data-theme="light"] .delete-btn {
+    color: #94a3b8;
+}
+
+[data-theme="light"] .delete-btn:hover {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+}
+
+/* Light mode theme toggle */
+[data-theme="light"] .theme-toggle {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #4b5563;
+}
+
+[data-theme="light"] .theme-toggle:hover {
+    background: #e2e8f0;
+    color: #1f2937;
+}
+
+/* Light mode user profile */
+[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+[data-theme="light"] .user-info .name {
+    color: #1e293b;
+}
+
+[data-theme="light"] .user-info .role {
+    color: #64748b;
+}
+
+/* Light mode view options */
+[data-theme="light"] .view-options {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+}
+
+[data-theme="light"] .view-options i {
+    color: #94a3b8;
+}
+
+[data-theme="light"] .view-options i:hover,
+[data-theme="light"] .view-options i.active {
+    color: var(--purple-primary);
+}
+
+/* Light mode section header */
+[data-theme="light"] .section-header h2 {
+    color: #1e293b;
+}
+
 .fav-btn {
     position: absolute;
     top: 12px;

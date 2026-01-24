@@ -1,6 +1,6 @@
 import React from "react";
 
-const BookList = ({ books, onDelete, onToggleFavorite, viewMode = 'grid' }) => {
+const BookList = ({ books, onDelete, onToggleFavorite, onEditBook, viewMode = 'grid' }) => {
     if (books.length === 0) {
         return (
             <div className="empty-state glass-panel">
@@ -31,6 +31,7 @@ const BookList = ({ books, onDelete, onToggleFavorite, viewMode = 'grid' }) => {
                         key={book.isbn}
                         className="book-list-item glass-panel"
                         style={{ '--delay': `${index * 0.05}s` }}
+                        onClick={() => onEditBook && onEditBook(book)}
                     >
                         <div
                             className="list-item-cover"
@@ -95,7 +96,12 @@ const BookList = ({ books, onDelete, onToggleFavorite, viewMode = 'grid' }) => {
     return (
         <div className="book-grid">
             {books.map((book) => (
-                <div key={book.isbn} className="book-card glass-panel" style={{ '--delay': `${Math.random() * 0.5}s` }}>
+                <div
+                    key={book.isbn}
+                    className="book-card glass-panel"
+                    style={{ '--delay': `${Math.random() * 0.5}s` }}
+                    onClick={() => onEditBook && onEditBook(book)}
+                >
                     <div
                         className="book-cover"
                         style={{

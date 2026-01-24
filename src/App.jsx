@@ -302,15 +302,21 @@ function AppContent() {
               books={getFilteredBooks()}
               onDelete={deleteBook}
               onToggleFavorite={toggleFavorite}
+              onEditBook={handleEditBook}
               viewMode={viewMode}
             />
           )}
         </div>
       </main>
 
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <BookForm onAddBook={addBook} />
+      {(isModalOpen || editingBook) && (
+        <Modal onClose={closeModal}>
+          <BookForm
+            onAddBook={addBook}
+            editBook={editingBook}
+            onUpdateBook={updateBook}
+            onClose={closeModal}
+          />
         </Modal>
       )}
 

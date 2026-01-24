@@ -74,6 +74,24 @@ const Modal = ({ children, onClose }) => {
           from { transform: scale(0.9); opacity: 0; }
           to { transform: scale(1); opacity: 1; }
         }
+
+        /* Light mode modal */
+        [data-theme="light"] .modal-content {
+          background: rgba(255, 255, 255, 0.95);
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="light"] .close-btn {
+          color: #64748b;
+        }
+
+        [data-theme="light"] .close-btn:hover {
+          color: #1f2937;
+        }
+
+        [data-theme="light"] .modal-content h2 {
+          color: #1e293b;
+        }
       `}</style>
     </div>
   );
