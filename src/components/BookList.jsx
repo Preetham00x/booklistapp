@@ -1,6 +1,6 @@
 import React from "react";
 
-const BookList = ({ books, onDelete, onToggleFavorite }) => {
+const BookList = ({ books, onDelete, onToggleFavorite, viewMode = 'grid' }) => {
     if (books.length === 0) {
         return (
             <div className="empty-state glass-panel">
@@ -22,6 +22,53 @@ const BookList = ({ books, onDelete, onToggleFavorite }) => {
         return `linear-gradient(135deg, #${c1.padEnd(6, '0')}, #${c2.padEnd(6, '0')})`;
     };
 
+    // List View Layout
+    if (viewMode === 'list') {
+        return (
+            <div className="book-list">
+                {books.map((book, index) => (
+                    <div
+                        key={book.isbn}
+                        className="book-list-item glass-panel"
+                        style={{ '--delay': `${index * 0.05}s` }}
+                    >
+                        <div className="list-item-cover" style={{ background: getGradient(book.title) }}>
+                            <span className="list-cover-title">{book.title.charAt(0)}</span>
+                        </div>
+                        <div className="list-item-info">
+                            <h3 className="list-item-title">{book.title}</h3>
+                            <p className="list-item-author">by {book.author}</p>
+                            <span className="list-item-isbn">#{book.isbn}</span>
+                        </div>
+                        <div className="list-item-actions">
+                            <button
+                                className={`list-fav-btn ${book.isFavorite ? 'active' : ''}`}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onToggleFavorite(book.isbn);
+                                }}
+                                title={book.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                            >
+                                <i className={`${book.isFavorite ? 'fa-solid' : 'fa-regular'} fa-heart`}></i>
+                            </button>
+                            <button
+                                className="list-delete-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onDelete(book.isbn);
+                                }}
+                                title="Delete book"
+                            >
+                                <i className="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    // Grid View Layout (default)
     return (
         <div className="book-grid">
             {books.map((book) => (
@@ -61,3 +108,4 @@ const BookList = ({ books, onDelete, onToggleFavorite }) => {
 };
 
 export default BookList;
+

@@ -111,6 +111,7 @@ function AppContent() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
 
   // --- PERSISTENCE EFFECT ---
   useEffect(() => {
@@ -257,10 +258,18 @@ function AppContent() {
               {currentView === 'blend' && 'Book Blend'}
             </h2>
 
-            {currentView !== 'history' && (
+            {currentView !== 'history' && currentView !== 'blend' && (
               <div className="view-options">
-                <i className="fa-solid fa-list"></i>
-                <i className="fa-solid fa-border-all active"></i>
+                <i
+                  className={`fa-solid fa-list ${viewMode === 'list' ? 'active' : ''}`}
+                  onClick={() => setViewMode('list')}
+                  title="List View"
+                ></i>
+                <i
+                  className={`fa-solid fa-border-all ${viewMode === 'grid' ? 'active' : ''}`}
+                  onClick={() => setViewMode('grid')}
+                  title="Grid View"
+                ></i>
               </div>
             )}
           </div>
@@ -274,6 +283,7 @@ function AppContent() {
               books={getFilteredBooks()}
               onDelete={deleteBook}
               onToggleFavorite={toggleFavorite}
+              viewMode={viewMode}
             />
           )}
         </div>
