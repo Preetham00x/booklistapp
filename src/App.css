@@ -100,7 +100,7 @@
 }
 
 .nav-item.active i {
-    color: var(--accent-teal-light);
+    color: var(--purple-light);
 }
 
 /* User Profile Section */
@@ -149,7 +149,7 @@
 }
 
 .user-info .role:hover {
-    color: var(--accent-teal-light);
+    color: var(--purple-light);
 }
 
 /* ========================================
@@ -248,11 +248,11 @@
 }
 
 .view-options i:hover {
-    color: var(--accent-teal-light);
+    color: var(--purple-light);
 }
 
 .view-options i.active {
-    color: var(--accent-teal-light);
+    color: var(--purple-light);
 }
 
 /* ========================================
@@ -275,7 +275,7 @@
 }
 
 .notification.success {
-    border-left: 4px solid var(--accent-teal);
+    border-left: 4px solid var(--purple-primary);
 }
 
 .notification.error {
@@ -287,7 +287,7 @@
 }
 
 .notification.success i {
-    color: var(--accent-teal);
+    color: var(--purple-light);
 }
 
 .notification.error i {
@@ -344,19 +344,15 @@
 }
 
 .book-card:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-8px);
     box-shadow:
-        0 25px 50px rgba(0, 0, 0, 0.5),
-        0 0 60px rgba(124, 58, 237, 0.15);
-    border-color: rgba(139, 92, 246, 0.3);
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(124, 58, 237, 0.2);
+    border-color: rgba(139, 92, 246, 0.4);
 }
 
 .book-card:hover::before {
     opacity: 1;
-}
-
-.book-card:hover .book-cover {
-    filter: brightness(1.1) saturate(1.1);
 }
 
 .book-cover {
@@ -368,7 +364,11 @@
     padding: 25px;
     text-align: center;
     position: relative;
-    transition: filter 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.book-card:hover .book-cover {
+    filter: brightness(1.05);
 }
 
 .fav-btn {
