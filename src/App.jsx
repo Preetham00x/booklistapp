@@ -4,6 +4,7 @@ import BookForm from "./components/BookForm";
 import Modal from "./components/Modal";
 import Login from "./components/Login";
 import HistoryList from "./components/HistoryList";
+import BlendPage from "./components/BlendPage";
 import "./App.css";
 
 // Firebase
@@ -45,6 +46,13 @@ const Sidebar = ({ currentView, setView, user, isGuest, onLogout, onLoginRedirec
       >
         <i className="fa-solid fa-clock-rotate-left"></i>
         <span>History</span>
+      </div>
+      <div
+        className={`nav-item ${currentView === 'blend' ? 'active' : ''}`}
+        onClick={() => setView('blend')}
+      >
+        <i className="fa-solid fa-wand-magic-sparkles"></i>
+        <span>Book Blend</span>
       </div>
     </nav>
 
@@ -242,6 +250,7 @@ function App() {
               {currentView === 'library' && 'My Library'}
               {currentView === 'favorites' && 'Favorites'}
               {currentView === 'history' && 'Activity History'}
+              {currentView === 'blend' && 'Book Blend'}
             </h2>
 
             {currentView !== 'history' && (
@@ -254,6 +263,8 @@ function App() {
 
           {currentView === 'history' ? (
             <HistoryList history={history} clearHistory={clearHistory} />
+          ) : currentView === 'blend' ? (
+            <BlendPage user={user} isGuest={isGuest} books={books} />
           ) : (
             <BookList
               books={getFilteredBooks()}
